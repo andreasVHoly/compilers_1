@@ -2,6 +2,7 @@ ANNOUNCE
 CHANGES
 MANIFEST.in
 TODO
+setup.cfg
 setup.py
 doc/internal.html
 doc/makedoc.py
