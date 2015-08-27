@@ -8,7 +8,7 @@ class Lexer(object):
 
 
     #tokens
-    tokens = ('ID', 'FLOAT_LITERAL_VALUE', 'ADD', 'SUB', 'MULT', 'DIV', 'EQUAL', 'OBRACKET', 'CBRACKET', 'WHITESPACE', 'COMMENT')
+    tokens = ('ID', 'FLOAT_LITERAL', 'ADD', 'SUB', 'MULT', 'DIV', 'EQUAL', 'OBRACKET', 'CBRACKET', 'WHITESPACE', 'COMMENT')
     # Regular expression rules for simple tokens
 
     t_ADD = r'\@'
@@ -28,7 +28,7 @@ class Lexer(object):
         return t
 
 
-    def t_FLOAT_LITERAL_VALUE(self,t):
+    def t_FLOAT_LITERAL(self,t):
         #if we find a digit and can have 1 or more iterations of digits
         r'\d+'
         t.value = int(t.value)
@@ -91,9 +91,18 @@ class Lexer(object):
         # Give the lexer some input
         self.lexer.input(data)
 
+        outFile = open(fileName[0:-4] + '_1.tkn', 'w')
+
         # Tokenize
         while True:
             tok = self.lexer.token()
             if not tok:
                 break
+            if tok.type == 'FLOAT_LITERAL' or tok.type == 'ID':
+                 outFile.write(tok.type + "," + str(tok.value) + '\n')
+            else:
+                outFile.write(str(tok.value) + '\n')
+
             print(tok)
+
+        outFile.close()
