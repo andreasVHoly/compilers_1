@@ -30,8 +30,10 @@ class Lexer(object):
 
     def t_FLOAT_LITERAL(self,t):
         #if we find a digit and can have 1 or more iterations of digits
-        r'\d+'
-        t.value = int(t.value)
+        #r'\d+\.?\d+'
+
+        r'[+-]?[0-9]+(\.[0-9]+)?([eE][+-]?[0-9]+)?'
+        #t.value = float(t.value)
         return t
 
 
