@@ -10,6 +10,47 @@ digits = list(string.digits)
 
 
 
+def whitespaceDFA(expr, debug):
+    if expr[0] == ' ':
+        if debug:print("space recognized")
+    elif expr[0] == '\t':
+        if debug:print("tab recognized")
+    elif expr[0] == '\n':
+        if debug:print("new line recognized")
+    elif expr[0] == '\r':
+        if debug:print("return recognized")
+    else:
+        if debug:print("no match")
+        return False
+
+    return True
+
+
+
+
+
+def operatorsDFA(expr, debug):
+    if expr[0] == "@":
+        if debug:print("@ sign recognized")
+    elif expr[0] == "$":
+        if debug:print("$ sign recognized")
+    elif expr[0] == "#":
+        if debug:print("# sign recognized")
+    elif expr[0] == "&":
+        if debug:print("& sign recognized")
+    elif expr[0] == "=":
+        if debug:print("= sign recognized")
+    elif expr[0] == "(":
+        if debug:print("( sign recognized")
+    elif expr[0] == ")":
+        if debug:print(") sign recognized")
+    else:
+        if debug:print("no match")
+        return False
+
+    return True
+
+
 def numericLitDFA(expr, debug):
     #check entry character
     if expr[0] in digits:
