@@ -124,8 +124,7 @@ def indentifierDFA(expr, debug):
 
     return True
 
-
-
+'''
 def main():
     print("Starting main in dfa.py")
     testList = ['_test', 'tester', 'test!', '_test123', '12test123']
@@ -146,3 +145,4 @@ def main():
 if __name__ == "__main__":
     main()
 
+'''
