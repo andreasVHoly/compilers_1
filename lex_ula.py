@@ -8,7 +8,7 @@ class Lexer(object):
 
 
     #tokens
-    tokens = ('ID', 'FLOAT_LITERAL', 'ADD', 'SUB', 'MULT', 'DIV', 'EQUAL', 'OBRACKET', 'CBRACKET', 'WHITESPACE', 'COMMENT')
+    tokens = ('ID', 'FLOAT_LITERAL', 'ADD', 'SUB', 'MULT', 'DIV', 'EQUAL', 'OBRACKET', 'CBRACKET', 'WHITESPACE', 'MLCOMMENT', 'SLCOMMENT')
     # Regular expression rules for simple tokens
 
     t_ADD = r'\@'
@@ -32,14 +32,21 @@ class Lexer(object):
         #if we find a digit and can have 1 or more iterations of digits
         #r'\d+\.?\d+'
 
-        r'[+-]?[0-9]+(\.[0-9]+)?([eE][+-]?[0-9]+)?'
+        r'[+-]?\d+(\.\d+)?([eE][+-]?\d+)?'
         #t.value = float(t.value)
         return t
 
 
-    def t_COMMENT(self,t):
+    def t_SLCOMMENT(self,t):
         #means we check for // and go up until the end of the line ie \n (specified by the .) and then have 0 or more iterations of this (*)
-        r'\//.*'
+        r'//.*'
+        t.value = "COMMENT"
+        return t
+
+
+    def t_MLCOMMENT(self,t):
+        #check for this pattern: /* any number of things other than */ [^*/] up until */
+        r'\/\*+[^*/]+\*+\/'
         t.value = "COMMENT"
         return t
 
