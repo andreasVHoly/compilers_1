@@ -109,9 +109,9 @@ class Lexer(object):
                 break
             if tok.type == 'FLOAT_LITERAL' or tok.type == 'ID':
                  outFile.write(tok.type + "," + str(tok.value) + '\n')
+                 print(tok.type + "," + str(tok.value))
             else:
                 outFile.write(str(tok.value) + '\n')
-
-            print(tok)
+                print(str(tok.value))
 
         outFile.close()

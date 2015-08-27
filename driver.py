@@ -30,13 +30,13 @@ def main():
     print("\nRunning comments file now...")
     lexer.importFile("ula_samples/comments.ula")
     print("\nRunning complex file now...")
-    #lexer.importFile("ula_samples/complex.ula")
+    lexer.importFile("ula_samples/complex.ula")
     print("\nRunning exprs file now...")
-    #lexer.importFile("ula_samples/exprs.ula")
+    lexer.importFile("ula_samples/exprs.ula")
     print("\nRunning floats file now...")
-    #lexer.importFile("ula_samples/floats.ula")
+    lexer.importFile("ula_samples/floats.ula")
     print("\nRunning var assigns file now...")
-    #lexer.importFile("ula_samples/var_assigns.ula")
+    lexer.importFile("ula_samples/var_assigns.ula")
 
     print("\nProgram ended...")
 
