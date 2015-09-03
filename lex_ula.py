@@ -1,6 +1,7 @@
 __author__ = 'VHLAND002'
 
 import lex
+import sys
 
 tokens = ('ID', 'FLOAT_LITERAL', 'ADD', 'SUB', 'MULT', 'DIV', 'EQUAL', 'OBRACKET', 'CBRACKET', 'WHITESPACE', 'MLCOMMENT', 'SLCOMMENT')
 
@@ -25,7 +26,7 @@ t_CBRACKET = r'\)'
 # def t_ID(self,t)
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
-    t.value = '' + t.value
+    t.value = ('ID', t.value)
     return t
 
 
@@ -35,7 +36,7 @@ def t_FLOAT_LITERAL(t):
     #r'\d+\.?\d+'
 
     r'[+-]?\d+(\.\d+)?([eE][+-]?\d+)?'
-    #t.value = float(t.value)
+    t.value = ('FLOAT_LITERAL',t.value)
     return t
 
 
@@ -75,10 +76,65 @@ def t_error(t):
     t.lexer.skip(1)
 
 
+def importFile(fileName):
+    inFile = open(fileName, 'r')
+    data = inFile.read()
+    inFile.close()
+    # Give the lexer some input
+    lexer.input(data)
+
+    outFile = open(fileName[0:-4] + '_1.tkn', 'w')
+
+    # Tokenize
+    while True:
+        tok = lexer.token()
+        if not tok:
+            break
+
+        if tok.type == 'FLOAT_LITERAL' or tok.type == 'ID':
+            outFile.write(tok.value[0] + "," + str(tok.value[1]) + '\n')
+            print(tok.value[0] + "," + str(tok.value[1]))
+        else:
+
+            outFile.write(str(tok.value) + '\n')
+            print(str(tok.value))
+
+    outFile.close()
+
+
 
 lexer = lex.lex()
+importFile(str(sys.argv[1]))
 
 
+
+
+'''
+#fil'eName = "ula_samples/comments.tkn"
+inFile = open(sys.argv[1], 'r')
+#inFile = open(fileName, 'r')
+data = inFile.read()
+inFile.close()
+# Give the lexer some input
+lexer.input(data)
+outFile = open(sys.argv[1][0:-4] + '_1.tkn', 'w')
+#outFile = open(fileName[0:-4] + '_1.tkn', 'w')
+
+
+# Tokenize
+while True:
+    tok = lexer.token()
+    if not tok:
+        break
+    if tok.type == 'FLOAT_LITERAL' or tok.type == 'ID':
+        outFile.write(tok.type + "," + str(tok.value) + '\n')
+        print(tok.type + "," + str(tok.value))
+    else:
+        outFile.write(str(tok.value) + '\n')
+        print(str(tok.value))
+
+outFile.close()
+'''
 
 '''
 #builds the lexer
@@ -103,27 +159,4 @@ def test(self, data):
             break
         print(tok)
 '''
-'''
-def importFile(self, fileName):
-    inFile = open(fileName, 'r')
-    data = inFile.read()
-    inFile.close()
-    # Give the lexer some input
-    self.lexer.input(data)
 
-    outFile = open(fileName[0:-4] + '_1.tkn', 'w')
-
-    # Tokenize
-    while True:
-        tok = self.lexer.token()
-        if not tok:
-            break
-        if tok.type == 'FLOAT_LITERAL' or tok.type == 'ID':
-            outFile.write(tok.type + "," + str(tok.value) + '\n')
-            print(tok.type + "," + str(tok.value))
-        else:
-            outFile.write(str(tok.value) + '\n')
-            print(str(tok.value))
-
-    outFile.close()
-'''
