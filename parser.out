@@ -2,8 +2,8 @@ Created by PLY version 3.6 (http://www.dabeaz.com/ply)
 
 Unused terminals:
 
-    MLCOMMENT
     SLCOMMENT
+    MLCOMMENT
     WHITESPACE
 
 Grammar
@@ -56,11 +56,11 @@ state 0
     (2) program -> . statement
     (3) statement -> . ID EQUAL expression
 
-    ID              shift and go to state 3
+    ID              shift and go to state 2
 
     start                          shift and go to state 1
-    program                        shift and go to state 2
-    statement                      shift and go to state 4
+    statement                      shift and go to state 3
+    program                        shift and go to state 4
 
 state 1
 
@@ -70,23 +70,23 @@ state 1
 
 state 2
 
-    (1) start -> program .
-
-    $end            reduce using rule 1 (start -> program .)
-
-
-state 3
-
     (3) statement -> ID . EQUAL expression
 
     EQUAL           shift and go to state 5
 
 
-state 4
+state 3
 
     (2) program -> statement .
 
     $end            reduce using rule 2 (program -> statement .)
+
+
+state 4
+
+    (1) start -> program .
+
+    $end            reduce using rule 1 (start -> program .)
 
 
 state 5
@@ -102,24 +102,23 @@ state 5
     (11) factor -> . FLOAT_LITERAL
     (12) factor -> . ID
 
-    OBRACKET        shift and go to state 9
-    FLOAT_LITERAL   shift and go to state 10
+    OBRACKET        shift and go to state 8
+    FLOAT_LITERAL   shift and go to state 9
     ID              shift and go to state 7
 
-    factor                         shift and go to state 6
-    term                           shift and go to state 11
-    expression                     shift and go to state 8
+    expression                     shift and go to state 6
+    factor                         shift and go to state 11
+    term                           shift and go to state 10
 
 state 6
 
-    (9) term -> factor .
+    (3) statement -> ID EQUAL expression .
+    (4) expression -> expression . ADD term
+    (5) expression -> expression . SUB term
 
-    MULT            reduce using rule 9 (term -> factor .)
-    DIV             reduce using rule 9 (term -> factor .)
-    ADD             reduce using rule 9 (term -> factor .)
-    SUB             reduce using rule 9 (term -> factor .)
-    $end            reduce using rule 9 (term -> factor .)
-    CBRACKET        reduce using rule 9 (term -> factor .)
+    $end            reduce using rule 3 (statement -> ID EQUAL expression .)
+    ADD             shift and go to state 13
+    SUB             shift and go to state 12
 
 
 state 7
@@ -128,24 +127,13 @@ state 7
 
     MULT            reduce using rule 12 (factor -> ID .)
     DIV             reduce using rule 12 (factor -> ID .)
+    CBRACKET        reduce using rule 12 (factor -> ID .)
     ADD             reduce using rule 12 (factor -> ID .)
     SUB             reduce using rule 12 (factor -> ID .)
     $end            reduce using rule 12 (factor -> ID .)
-    CBRACKET        reduce using rule 12 (factor -> ID .)
 
 
 state 8
-
-    (3) statement -> ID EQUAL expression .
-    (4) expression -> expression . ADD term
-    (5) expression -> expression . SUB term
-
-    $end            reduce using rule 3 (statement -> ID EQUAL expression .)
-    ADD             shift and go to state 12
-    SUB             shift and go to state 13
-
-
-state 9
 
     (10) factor -> OBRACKET . expression CBRACKET
     (4) expression -> . expression ADD term
@@ -158,58 +146,53 @@ state 9
     (11) factor -> . FLOAT_LITERAL
     (12) factor -> . ID
 
-    OBRACKET        shift and go to state 9
-    FLOAT_LITERAL   shift and go to state 10
+    OBRACKET        shift and go to state 8
+    FLOAT_LITERAL   shift and go to state 9
     ID              shift and go to state 7
 
-    factor                         shift and go to state 6
-    term                           shift and go to state 11
     expression                     shift and go to state 14
+    factor                         shift and go to state 11
+    term                           shift and go to state 10
 
-state 10
+state 9
 
     (11) factor -> FLOAT_LITERAL .
 
     MULT            reduce using rule 11 (factor -> FLOAT_LITERAL .)
     DIV             reduce using rule 11 (factor -> FLOAT_LITERAL .)
+    CBRACKET        reduce using rule 11 (factor -> FLOAT_LITERAL .)
     ADD             reduce using rule 11 (factor -> FLOAT_LITERAL .)
     SUB             reduce using rule 11 (factor -> FLOAT_LITERAL .)
     $end            reduce using rule 11 (factor -> FLOAT_LITERAL .)
-    CBRACKET        reduce using rule 11 (factor -> FLOAT_LITERAL .)
 
 
-state 11
+state 10
 
     (6) expression -> term .
     (7) term -> term . MULT factor
     (8) term -> term . DIV factor
 
+    CBRACKET        reduce using rule 6 (expression -> term .)
     ADD             reduce using rule 6 (expression -> term .)
     SUB             reduce using rule 6 (expression -> term .)
     $end            reduce using rule 6 (expression -> term .)
-    CBRACKET        reduce using rule 6 (expression -> term .)
-    MULT            shift and go to state 16
-    DIV             shift and go to state 15
+    MULT            shift and go to state 15
+    DIV             shift and go to state 16
+
+
+state 11
+
+    (9) term -> factor .
+
+    MULT            reduce using rule 9 (term -> factor .)
+    DIV             reduce using rule 9 (term -> factor .)
+    CBRACKET        reduce using rule 9 (term -> factor .)
+    ADD             reduce using rule 9 (term -> factor .)
+    SUB             reduce using rule 9 (term -> factor .)
+    $end            reduce using rule 9 (term -> factor .)
 
 
 state 12
-
-    (4) expression -> expression ADD . term
-    (7) term -> . term MULT factor
-    (8) term -> . term DIV factor
-    (9) term -> . factor
-    (10) factor -> . OBRACKET expression CBRACKET
-    (11) factor -> . FLOAT_LITERAL
-    (12) factor -> . ID
-
-    OBRACKET        shift and go to state 9
-    FLOAT_LITERAL   shift and go to state 10
-    ID              shift and go to state 7
-
-    factor                         shift and go to state 6
-    term                           shift and go to state 17
-
-state 13
 
     (5) expression -> expression SUB . term
     (7) term -> . term MULT factor
@@ -219,11 +202,28 @@ state 13
     (11) factor -> . FLOAT_LITERAL
     (12) factor -> . ID
 
-    OBRACKET        shift and go to state 9
-    FLOAT_LITERAL   shift and go to state 10
+    OBRACKET        shift and go to state 8
+    FLOAT_LITERAL   shift and go to state 9
     ID              shift and go to state 7
 
-    factor                         shift and go to state 6
+    factor                         shift and go to state 11
+    term                           shift and go to state 17
+
+state 13
+
+    (4) expression -> expression ADD . term
+    (7) term -> . term MULT factor
+    (8) term -> . term DIV factor
+    (9) term -> . factor
+    (10) factor -> . OBRACKET expression CBRACKET
+    (11) factor -> . FLOAT_LITERAL
+    (12) factor -> . ID
+
+    OBRACKET        shift and go to state 8
+    FLOAT_LITERAL   shift and go to state 9
+    ID              shift and go to state 7
+
+    factor                         shift and go to state 11
     term                           shift and go to state 18
 
 state 14
@@ -233,62 +233,62 @@ state 14
     (5) expression -> expression . SUB term
 
     CBRACKET        shift and go to state 19
-    ADD             shift and go to state 12
-    SUB             shift and go to state 13
+    ADD             shift and go to state 13
+    SUB             shift and go to state 12
 
 
 state 15
-
-    (8) term -> term DIV . factor
-    (10) factor -> . OBRACKET expression CBRACKET
-    (11) factor -> . FLOAT_LITERAL
-    (12) factor -> . ID
-
-    OBRACKET        shift and go to state 9
-    FLOAT_LITERAL   shift and go to state 10
-    ID              shift and go to state 7
-
-    factor                         shift and go to state 20
-
-state 16
 
     (7) term -> term MULT . factor
     (10) factor -> . OBRACKET expression CBRACKET
     (11) factor -> . FLOAT_LITERAL
     (12) factor -> . ID
 
-    OBRACKET        shift and go to state 9
-    FLOAT_LITERAL   shift and go to state 10
+    OBRACKET        shift and go to state 8
+    FLOAT_LITERAL   shift and go to state 9
+    ID              shift and go to state 7
+
+    factor                         shift and go to state 20
+
+state 16
+
+    (8) term -> term DIV . factor
+    (10) factor -> . OBRACKET expression CBRACKET
+    (11) factor -> . FLOAT_LITERAL
+    (12) factor -> . ID
+
+    OBRACKET        shift and go to state 8
+    FLOAT_LITERAL   shift and go to state 9
     ID              shift and go to state 7
 
     factor                         shift and go to state 21
 
 state 17
 
-    (4) expression -> expression ADD term .
-    (7) term -> term . MULT factor
-    (8) term -> term . DIV factor
-
-    ADD             reduce using rule 4 (expression -> expression ADD term .)
-    SUB             reduce using rule 4 (expression -> expression ADD term .)
-    $end            reduce using rule 4 (expression -> expression ADD term .)
-    CBRACKET        reduce using rule 4 (expression -> expression ADD term .)
-    MULT            shift and go to state 16
-    DIV             shift and go to state 15
-
-
-state 18
-
     (5) expression -> expression SUB term .
     (7) term -> term . MULT factor
     (8) term -> term . DIV factor
 
+    CBRACKET        reduce using rule 5 (expression -> expression SUB term .)
     ADD             reduce using rule 5 (expression -> expression SUB term .)
     SUB             reduce using rule 5 (expression -> expression SUB term .)
     $end            reduce using rule 5 (expression -> expression SUB term .)
-    CBRACKET        reduce using rule 5 (expression -> expression SUB term .)
-    MULT            shift and go to state 16
-    DIV             shift and go to state 15
+    MULT            shift and go to state 15
+    DIV             shift and go to state 16
+
+
+state 18
+
+    (4) expression -> expression ADD term .
+    (7) term -> term . MULT factor
+    (8) term -> term . DIV factor
+
+    CBRACKET        reduce using rule 4 (expression -> expression ADD term .)
+    ADD             reduce using rule 4 (expression -> expression ADD term .)
+    SUB             reduce using rule 4 (expression -> expression ADD term .)
+    $end            reduce using rule 4 (expression -> expression ADD term .)
+    MULT            shift and go to state 15
+    DIV             shift and go to state 16
 
 
 state 19
@@ -297,32 +297,32 @@ state 19
 
     MULT            reduce using rule 10 (factor -> OBRACKET expression CBRACKET .)
     DIV             reduce using rule 10 (factor -> OBRACKET expression CBRACKET .)
+    CBRACKET        reduce using rule 10 (factor -> OBRACKET expression CBRACKET .)
     ADD             reduce using rule 10 (factor -> OBRACKET expression CBRACKET .)
     SUB             reduce using rule 10 (factor -> OBRACKET expression CBRACKET .)
     $end            reduce using rule 10 (factor -> OBRACKET expression CBRACKET .)
-    CBRACKET        reduce using rule 10 (factor -> OBRACKET expression CBRACKET .)
 
 
 state 20
-
-    (8) term -> term DIV factor .
-
-    MULT            reduce using rule 8 (term -> term DIV factor .)
-    DIV             reduce using rule 8 (term -> term DIV factor .)
-    ADD             reduce using rule 8 (term -> term DIV factor .)
-    SUB             reduce using rule 8 (term -> term DIV factor .)
-    $end            reduce using rule 8 (term -> term DIV factor .)
-    CBRACKET        reduce using rule 8 (term -> term DIV factor .)
-
-
-state 21
 
     (7) term -> term MULT factor .
 
     MULT            reduce using rule 7 (term -> term MULT factor .)
     DIV             reduce using rule 7 (term -> term MULT factor .)
+    CBRACKET        reduce using rule 7 (term -> term MULT factor .)
     ADD             reduce using rule 7 (term -> term MULT factor .)
     SUB             reduce using rule 7 (term -> term MULT factor .)
     $end            reduce using rule 7 (term -> term MULT factor .)
-    CBRACKET        reduce using rule 7 (term -> term MULT factor .)
+
+
+state 21
+
+    (8) term -> term DIV factor .
+
+    MULT            reduce using rule 8 (term -> term DIV factor .)
+    DIV             reduce using rule 8 (term -> term DIV factor .)
+    CBRACKET        reduce using rule 8 (term -> term DIV factor .)
+    ADD             reduce using rule 8 (term -> term DIV factor .)
+    SUB             reduce using rule 8 (term -> term DIV factor .)
+    $end            reduce using rule 8 (term -> term DIV factor .)
 

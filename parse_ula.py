@@ -9,7 +9,7 @@ import sys
 
 
 #start -> program
-def p_start_program(p):
+def p_start(p):
     'start : program'
     p[0] = ("Start\n",p[1])
 
@@ -19,7 +19,7 @@ def p_program_statement(p):
     p[0] = ("Program\n",p[1])
 
 
-
+start = 'start'
 
 
 
@@ -54,7 +54,7 @@ def p_term_mult(p):
     #p[0] = float(p[1]) * float(p[3])
     p[0] = ('MulExpression',p[1],p[3])
 
-t_ignore = 'WHITESPACE'
+
 
 # Term -> Term & Factor
 def p_term_div(p):
@@ -70,7 +70,7 @@ def p_term_factor(p):
 
 
 # Factor -> (Expression)
-def p_factor_expr(p):
+def p_factor_expression(p):
     'factor : OBRACKET expression CBRACKET'
     #p[0] = p[2]
     p[0] = ('AssignStatement4',p[2])
@@ -95,11 +95,13 @@ def p_factor_id(p):
 
 # Error rule for syntax errors
 def p_error(p):
+    '''
     if p.value == 'WHITESPACE' or p.value == 'COMMENT':
         print("Skipped")
         parser.errok()
     else:
-        print("Syntax error in input!")
+    '''
+    print("Syntax error in input!")
 
 # Build the parser
 parser = yacc.yacc()
@@ -108,10 +110,10 @@ parser = yacc.yacc()
 #inFile = open(sys.argv[1], 'r')
 
 #lex_ula.importFile(str(sys.argv[1]))
-inFile = open("ula_samples/comments.tkn", 'r')
+inFile = open("ula_samples/floats.tkn", 'r')
 data = inFile.read()
 inFile.close()
 # Give the lexer some input
 
-result = parser.parse(data,lexer = lex_ula.lexer)
+result = parser.parse(data,lexer = lex_ula.lexer,debug=True)
 print(result)

@@ -5,9 +5,9 @@ _tabversion = '3.5'
 
 _lr_method = 'LALR'
 
-_lr_signature = '28B831C46CA7BA745BA9CE7941B1A955'
+_lr_signature = '0C6B7F4E740D4BD072A207E7288BE3E7'
     
-_lr_action_items = {'ID':([0,5,9,12,13,15,16,],[3,7,7,7,7,7,7,]),'FLOAT_LITERAL':([5,9,12,13,15,16,],[10,10,10,10,10,10,]),'SUB':([6,7,8,10,11,14,17,18,19,20,21,],[-9,-12,13,-11,-6,13,-4,-5,-10,-8,-7,]),'ADD':([6,7,8,10,11,14,17,18,19,20,21,],[-9,-12,12,-11,-6,12,-4,-5,-10,-8,-7,]),'$end':([1,2,4,6,7,8,10,11,17,18,19,20,21,],[0,-1,-2,-9,-12,-3,-11,-6,-4,-5,-10,-8,-7,]),'CBRACKET':([6,7,10,11,14,17,18,19,20,21,],[-9,-12,-11,-6,19,-4,-5,-10,-8,-7,]),'MULT':([6,7,10,11,17,18,19,20,21,],[-9,-12,-11,16,16,16,-10,-8,-7,]),'OBRACKET':([5,9,12,13,15,16,],[9,9,9,9,9,9,]),'EQUAL':([3,],[5,]),'DIV':([6,7,10,11,17,18,19,20,21,],[-9,-12,-11,15,15,15,-10,-8,-7,]),}
+_lr_action_items = {'EQUAL':([2,],[5,]),'FLOAT_LITERAL':([5,8,12,13,15,16,],[9,9,9,9,9,9,]),'ID':([0,5,8,12,13,15,16,],[2,7,7,7,7,7,7,]),'SUB':([6,7,9,10,11,14,17,18,19,20,21,],[12,-12,-11,-6,-9,12,-5,-4,-10,-7,-8,]),'$end':([1,3,4,6,7,9,10,11,17,18,19,20,21,],[0,-2,-1,-3,-12,-11,-6,-9,-5,-4,-10,-7,-8,]),'CBRACKET':([7,9,10,11,14,17,18,19,20,21,],[-12,-11,-6,-9,19,-5,-4,-10,-7,-8,]),'MULT':([7,9,10,11,17,18,19,20,21,],[-12,-11,15,-9,15,15,-10,-7,-8,]),'OBRACKET':([5,8,12,13,15,16,],[8,8,8,8,8,8,]),'DIV':([7,9,10,11,17,18,19,20,21,],[-12,-11,16,-9,16,16,-10,-7,-8,]),'ADD':([6,7,9,10,11,14,17,18,19,20,21,],[13,-12,-11,-6,-9,13,-5,-4,-10,-7,-8,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -16,7 +16,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'factor':([5,9,12,13,15,16,],[6,6,6,6,20,21,]),'start':([0,],[1,]),'program':([0,],[2,]),'term':([5,9,12,13,],[11,11,17,18,]),'statement':([0,],[4,]),'expression':([5,9,],[8,14,]),}
+_lr_goto_items = {'expression':([5,8,],[6,14,]),'start':([0,],[1,]),'factor':([5,8,12,13,15,16,],[11,11,11,11,20,21,]),'term':([5,8,12,13,],[10,10,17,18,]),'statement':([0,],[3,]),'program':([0,],[4,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,7 +26,7 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> start","S'",1,None,None,None),
-  ('start -> program','start',1,'p_start_program','parse_ula.py',13),
+  ('start -> program','start',1,'p_start','parse_ula.py',13),
   ('program -> statement','program',1,'p_program_statement','parse_ula.py',18),
   ('statement -> ID EQUAL expression','statement',3,'p_statement_expression','parse_ula.py',29),
   ('expression -> expression ADD term','expression',3,'p_expression_add','parse_ula.py',35),
@@ -35,7 +35,7 @@ _lr_productions = [
   ('term -> term MULT factor','term',3,'p_term_mult','parse_ula.py',53),
   ('term -> term DIV factor','term',3,'p_term_div','parse_ula.py',61),
   ('term -> factor','term',1,'p_term_factor','parse_ula.py',67),
-  ('factor -> OBRACKET expression CBRACKET','factor',3,'p_factor_expr','parse_ula.py',74),
+  ('factor -> OBRACKET expression CBRACKET','factor',3,'p_factor_expression','parse_ula.py',74),
   ('factor -> FLOAT_LITERAL','factor',1,'p_factor_float_literal','parse_ula.py',83),
   ('factor -> ID','factor',1,'p_factor_id','parse_ula.py',91),
 ]

@@ -26,7 +26,7 @@ t_CBRACKET = r'\)'
 # def t_ID(self,t)
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
-    t.value = ('ID', t.value)
+    #t.value = ('ID', t.value)
     return t
 
 
@@ -36,7 +36,7 @@ def t_FLOAT_LITERAL(t):
     #r'\d+\.?\d+'
 
     r'[+-]?\d+(\.\d+)?([eE][+-]?\d+)?'
-    t.value = ('FLOAT_LITERAL',t.value)
+    #t.value = ('FLOAT_LITERAL',t.value)
     return t
 
 
@@ -82,7 +82,7 @@ def importFile(fileName):
     inFile.close()
     # Give the lexer some input
     lexer.input(data)
-
+    #TODO chnage this to normal without _1
     outFile = open(fileName[0:-4] + '_1.tkn', 'w')
 
     # Tokenize
@@ -92,11 +92,12 @@ def importFile(fileName):
             break
 
         if tok.type == 'FLOAT_LITERAL' or tok.type == 'ID':
-            outFile.write(tok.value[0] + "," + str(tok.value[1]) + '\n')
-            print(tok.value[0] + "," + str(tok.value[1]))
+            #outFile.write(tok.value[0] + "," + str(tok.value[1]) + '\n')
+            #print(tok.value[0] + "," + str(tok.value[1]))
+            print(tok.type + "," + str(tok.value))
         else:
 
-            outFile.write(str(tok.value) + '\n')
+            #outFile.write(str(tok.value) + '\n')
             print(str(tok.value))
 
     outFile.close()
@@ -104,8 +105,8 @@ def importFile(fileName):
 
 
 lexer = lex.lex()
-importFile(str(sys.argv[1]))
-
+#importFile(str(sys.argv[1]))
+importFile("ula_samples/floats.ula")
 
 
 
