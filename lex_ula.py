@@ -51,16 +51,11 @@ def t_SLCOMMENT(t):
 #def t_MLCOMMENT(self,t):
 def t_MLCOMMENT(t):
     #check for this pattern: /* any number of things other than */ [^*/] up until */
-    r'\/\*+[^*/]+\*+\/'
+    r'\/\*+[^*/]*\*+\/'
     t.value = "COMMENT"
     return t
 
-'''
-def t_newline(t):
-    r'\n+'
-    t_WHITESPACE(t)
-    t.lexer.lineno += len(t.value)
-'''
+
 
 #def t_WHITESPACE(self,t):
 def t_WHITESPACE(t):
@@ -76,37 +71,42 @@ def t_error(t):
     t.lexer.skip(1)
 
 
-def importFile(fileName):
+def importFile(fileName, lex):
     inFile = open(fileName, 'r')
     data = inFile.read()
     inFile.close()
     # Give the lexer some input
     lexer.input(data)
     #TODO chnage this to normal without _1
-    outFile = open(fileName[0:-4] + '_1.tkn', 'w')
+    fileName = fileName[0:-4] + '_1.tkn'
+    outFile = open(fileName, 'w')
 
-    # Tokenize
-    while True:
-        tok = lexer.token()
-        if not tok:
-            break
+    if lex:
+        # Tokenize
+        while True:
+            tok = lexer.token()
+            if not tok:
+                break
 
-        if tok.type == 'FLOAT_LITERAL' or tok.type == 'ID':
-            #outFile.write(tok.value[0] + "," + str(tok.value[1]) + '\n')
-            #print(tok.value[0] + "," + str(tok.value[1]))
-            print(tok.type + "," + str(tok.value))
-        else:
+            if tok.type == 'FLOAT_LITERAL' or tok.type == 'ID':
+                #outFile.write(tok.value[0] + "," + str(tok.value[1]) + '\n')
+                #print(tok.value[0] + "," + str(tok.value[1]))
+                print(tok.type + "," + str(tok.value))
+            else:
 
-            #outFile.write(str(tok.value) + '\n')
-            print(str(tok.value))
+                #outFile.write(str(tok.value) + '\n')
+                print(str(tok.value))
 
-    outFile.close()
+        outFile.close()
+
+
+    return fileName
 
 
 
 lexer = lex.lex()
 #importFile(str(sys.argv[1]))
-importFile("ula_samples/floats.ula")
+#importFile("ula_samples/floats.ula")
 
 
 
@@ -137,27 +137,7 @@ while True:
 outFile.close()
 '''
 
-'''
-#builds the lexer
-def build(self,**kwargs):
-    self.lexer = lex.lex(module=self, **kwargs)
-
-'''
-
-'''
-#testing method which received some input to be passed through
-def test(self, data):
-    # Test it out
 
 
-    # Give the lexer some input
-    self.lexer.input(data)
 
-    # Tokenize
-    while True:
-        tok = self.lexer.token()
-        if not tok:
-            break
-        print(tok)
-'''
 
