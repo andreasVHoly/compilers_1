@@ -117,3 +117,18 @@ inFile.close()
 
 result = parser.parse(data,lexer = lex_ula.lexer,debug=True)
 print(result)
+
+
+
+# TODO handling the token file
+# get the token file
+# ignore useless stuff
+# if something usefull is encountered (ID, Float lit), add in its value
+# else you add in the token type (or value, would be operators)
+# what happens with the () -> ?
+
+
+# TODO we need to traverse the tree
+
+
+# TODO set up presedence of operators
