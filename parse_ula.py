@@ -161,20 +161,20 @@ def convertTokenFile(name):
     #print(result)
 
 finalData = 'Start\n\tProgram\n\t\t'
-def traverseTree(tree):
+def traverseTree(tree, value):
     #print("\nStart...")
     #print("*"+str(tree))
 
     if len(tree) == 2:
-        print("**"+ str(tree))
+        print("\t"*value+ str(tree))
         return
 
-    #print(tree[0])
-    for i in range(0,len(tree)):
+    print(tree[0])
+    for i in range(1,len(tree)):
 
-
+        value += 1
         #print("handling " + str(tree[i]))
-        traverseTree(tree[i])
+        traverseTree(tree[i],value)
     '''
     for i in tree:
         if len(i) == 1:
@@ -199,7 +199,7 @@ parser = yacc.yacc()
 print("\nexprs...")
 content = []
 mainTree = []
-tokenFile = lex_ula.importFile("ula_samples/comments.ula",False)
+tokenFile = lex_ula.importFile("ula_samples/exprs.ula",False)
 convertTokenFile(tokenFile)
 '''
 print("\nfloats...")
@@ -219,7 +219,9 @@ content = []
 tokenFile = lex_ula.importFile("ula_samples/comments.ula",False)
 convertTokenFile(tokenFile)
 '''
-traverseTree(mainTree)
+
+traverseTree(mainTree[0],0)
+
 '''
 inFile = open("ula_samples/floats.tkn", 'r')
 data = inFile.read()
