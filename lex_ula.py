@@ -47,7 +47,7 @@ def t_SLCOMMENT(t):
     t.value = "COMMENT"
     return t
 
-
+# TODO make this one with slcomment
 #def t_MLCOMMENT(self,t):
 def t_MLCOMMENT(t):
     #check for this pattern: /* any number of things other than */ [^*/] up until */
@@ -71,17 +71,17 @@ def t_error(t):
     t.lexer.skip(1)
 
 
-def importFile(fileName, lex):
+def importFile(fileName, write):
     inFile = open(fileName, 'r')
     data = inFile.read()
     inFile.close()
     # Give the lexer some input
     lexer.input(data)
     #TODO chnage this to normal without _1
-    fileName = fileName[0:-4] + '_1.tkn'
+    fileName = fileName[0:-4] + '.tkn'
     outFile = open(fileName, 'w')
 
-    if lex:
+    if write:
         # Tokenize
         while True:
             tok = lexer.token()
@@ -89,12 +89,10 @@ def importFile(fileName, lex):
                 break
 
             if tok.type == 'FLOAT_LITERAL' or tok.type == 'ID':
-                #outFile.write(tok.value[0] + "," + str(tok.value[1]) + '\n')
-                #print(tok.value[0] + "," + str(tok.value[1]))
+                outFile.write(tok.type + "," + str(tok.value) + '\n')
                 print(tok.type + "," + str(tok.value))
             else:
-
-                #outFile.write(str(tok.value) + '\n')
+                outFile.write(str(tok.value) + '\n')
                 print(str(tok.value))
 
         outFile.close()

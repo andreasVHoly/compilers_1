@@ -81,7 +81,7 @@ def p_term_factor(p):
 def p_factor_expression(p):
     'factor : OBRACKET expression CBRACKET'
     #p[0] = p[2]
-    p[0] = ('AssignStatement4',p[2])
+    p[0] = (p[2])
 
 
 
@@ -94,11 +94,12 @@ def p_factor_float_literal(p):
 
 
 
+
 # Factor -> identifier
 def p_factor_id(p):
     'factor : ID'
     #p[0] = p[1]
-    p[0] = ('AssignStatement6',p[1])
+    p[0] = ('IdentifierExpression', ('ID',p[1]))
 
 
 # Error rule for syntax errors
@@ -114,7 +115,7 @@ def p_error(p):
 
 
 def convertTokenFile(name):
-    print("starting... ")
+    #print("starting... ")
     #tokFile = open(name, 'r')
     #tokFile = open("ula_samples/comments.tkn", 'r')
     #tokFile = open("ula_samples/exprs.tkn", 'r')
@@ -160,21 +161,37 @@ def convertTokenFile(name):
     #result = parser.parse(newData,lexer = lex_ula.lexer)
     #print(result)
 
-finalData = 'Start\n\tProgram\n\t\t'
+
 def traverseTree(tree, value):
     #print("\nStart...")
     #print("*"+str(tree))
 
     if len(tree) == 2:
-        print("\t"*value+ str(tree))
+        #print("\t"*value+ str(tree))
+        #final.append('\n'+"\t"*value+ str(tree))
+        #finalData +=  "\n" + "\t"*value + str(tree)
+
+        if tree[0] == 'FloatExpression':
+            final.append('\n'+"\t"*value+ str(tree[0]))
+            traverseTree(tree[1],value+1)
+        elif tree[0] == 'IdentifierExpression':
+            final.append('\n'+"\t"*value+ str(tree[0]))
+            traverseTree(tree[1],value+1)
+        else:
+            final.append('\n'+"\t"*value+ str(tree[0]) + "," + str(tree[1]))
+
         return
 
-    print(tree[0])
+
+    #print(tree[0])
+    final.append('\n'+"\t"*value+ str(tree[0]))
+
+
     for i in range(1,len(tree)):
 
-        value += 1
+
         #print("handling " + str(tree[i]))
-        traverseTree(tree[i],value)
+        traverseTree(tree[i],value+1)
     '''
     for i in tree:
         if len(i) == 1:
@@ -183,6 +200,16 @@ def traverseTree(tree, value):
         else:
             traverseTree(i)
     '''
+
+def createASTFile(name,tree):
+    name = name[0:-4] + '.ast'
+    outFile = open(name, 'w')
+
+    for i in tree:
+        outFile.write(i)
+
+
+    outFile.close()
 
 
 
@@ -196,11 +223,16 @@ parser = yacc.yacc()
 #tokenFile = lex_ula.importFile(str(sys.argv[1]))
 #tokenFile = lex_ula.importFile("ula_samples/floats.ula",False)
 #tokenFile = lex_ula.importFile("ula_samples/comments.ula",False)
-print("\nexprs...")
+
+#print("\nexprs...")
+#file = "ula_samples/complex.ula"
+file = str(sys.argv[1])
+final = []
 content = []
 mainTree = []
-tokenFile = lex_ula.importFile("ula_samples/exprs.ula",False)
+tokenFile = lex_ula.importFile(file,False)
 convertTokenFile(tokenFile)
+final.append("Start\n\tProgram")
 '''
 print("\nfloats...")
 content = []
@@ -219,8 +251,12 @@ content = []
 tokenFile = lex_ula.importFile("ula_samples/comments.ula",False)
 convertTokenFile(tokenFile)
 '''
-
-traverseTree(mainTree[0],0)
+#print(mainTree)
+for r in mainTree:
+    traverseTree(r,2)
+for i in final:
+    print(i,end='')
+createASTFile(file,final)
 
 '''
 inFile = open("ula_samples/floats.tkn", 'r')
