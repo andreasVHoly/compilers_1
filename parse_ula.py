@@ -113,45 +113,79 @@ def p_error(p):
 
 
 
-def convertTokenFile():
+def convertTokenFile(name):
     print("starting... ")
-    #tokFile = open(tokenFile, 'r')
+    #tokFile = open(name, 'r')
     #tokFile = open("ula_samples/comments.tkn", 'r')
-    tokFile = open("ula_samples/exprs.tkn", 'r')
+    #tokFile = open("ula_samples/exprs.tkn", 'r')
     #tokFile = open("ula_samples/floats.tkn", 'r')
     #data = tokFile.read()
-    newData = ''
+    newData = []
 
     while True:
         tok = lex_ula.lexer.token()
+
         if not tok:
+            statement = ''
+            for t in range(0,len(newData)):
+                statement += str(newData[t])
+            content.append(str(statement))
             break
-        if tok.value == 'COMMENT' or tok.value == 'WHITESPACE' or tok.type == 'OBRACKET'  or tok.type == 'CBRACKET':
-            print("skipped")
-        #elif tok.type == 'FLOAT_LITERAL' or tok.type == 'ID':
-            #print(tok.type)
 
+        if tok.value == 'COMMENT' or tok.value == 'WHITESPACE' :
+            #print("skipped")
+            continue
+        elif tok.value == '=':
+            statement = ''
+            for t in range(0,len(newData)-1):
+                statement += str(newData[t])
+            content.append(str(statement))
+            newData.clear()
+            newData.append(previous.value)
+            newData.append(tok.value)
         else:
-            #print(str(tok))
-            newData += tok.value
-    print(newData)
-    result = parser.parse(newData,lexer = lex_ula.lexer)
-    print(result)
-    print(content)
-'''
-    for i in tokFile:
-        if i[0:-1] == 'WHITESPACE' or i[0:-1] == 'COMMENT':
-            print("ignored")
-        elif i[0:1] == 'F':
-            newData += i
-        else:
+            newData.append(tok.value)
+
+
+        previous = tok
+
+    for y in range(1,len(content)):
+        #print(str(content[y]))
+        mainTree.append(parser.parse(str(content[y]),lexer = lex_ula.lexer))
+        #print(parser.parse(str(content[y]),lexer = lex_ula.lexer))
+
+    #for k in content:
+
+    #print(newData)
+    #result = parser.parse(newData,lexer = lex_ula.lexer)
+    #print(result)
+
+finalData = 'Start\n\tProgram\n\t\t'
+def traverseTree(tree):
+    #print("\nStart...")
+    #print("*"+str(tree))
+
+    if len(tree) == 2:
+        print("**"+ str(tree))
+        return
+
+    #print(tree[0])
+    for i in range(0,len(tree)):
+
+
+        #print("handling " + str(tree[i]))
+        traverseTree(tree[i])
+    '''
+    for i in tree:
+        if len(i) == 1:
             print(i)
-    tokFile.close()
-    print("ended...")
-'''
+            return
+        else:
+            traverseTree(i)
+    '''
 
 
-content = []
+
 
 # Build the parser
 parser = yacc.yacc()
@@ -162,8 +196,30 @@ parser = yacc.yacc()
 #tokenFile = lex_ula.importFile(str(sys.argv[1]))
 #tokenFile = lex_ula.importFile("ula_samples/floats.ula",False)
 #tokenFile = lex_ula.importFile("ula_samples/comments.ula",False)
-tokenFile = lex_ula.importFile("ula_samples/exprs.ula",False)
-convertTokenFile()
+print("\nexprs...")
+content = []
+mainTree = []
+tokenFile = lex_ula.importFile("ula_samples/comments.ula",False)
+convertTokenFile(tokenFile)
+'''
+print("\nfloats...")
+content = []
+tokenFile = lex_ula.importFile("ula_samples/floats.ula",False)
+convertTokenFile(tokenFile)
+print("\nvar_assigns...")
+content = []
+tokenFile = lex_ula.importFile("ula_samples/var_assigns.ula",False)
+convertTokenFile(tokenFile)
+print("\ncomplex...")
+content = []
+tokenFile = lex_ula.importFile("ula_samples/complex.ula",False)
+convertTokenFile(tokenFile)
+print("\ncomments...")
+content = []
+tokenFile = lex_ula.importFile("ula_samples/comments.ula",False)
+convertTokenFile(tokenFile)
+'''
+traverseTree(mainTree)
 '''
 inFile = open("ula_samples/floats.tkn", 'r')
 data = inFile.read()
