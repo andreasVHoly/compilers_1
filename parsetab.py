@@ -5,9 +5,9 @@ _tabversion = '3.5'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'C665C6475E79E56E343155648249B2AD'
+_lr_signature = 'D5DFD7F8E18BFD4EE68FC9C2E60595B4'
     
-_lr_action_items = {'CBRACKET':([4,5,7,9,12,15,16,17,18,19,],[-7,-10,-9,-4,17,-2,-3,-8,-6,-5,]),'MULT':([4,5,7,9,15,16,17,18,19,],[-7,-10,-9,14,14,14,-8,-6,-5,]),'EQUAL':([1,],[3,]),'$end':([2,4,5,6,7,9,15,16,17,18,19,],[0,-7,-10,-1,-9,-4,-2,-3,-8,-6,-5,]),'DIV':([4,5,7,9,15,16,17,18,19,],[-7,-10,-9,13,13,13,-8,-6,-5,]),'ID':([0,3,8,10,11,13,14,],[1,5,5,5,5,5,5,]),'OBRACKET':([3,8,10,11,13,14,],[8,8,8,8,8,8,]),'ADD':([4,5,6,7,9,12,15,16,17,18,19,],[-7,-10,10,-9,-4,10,-2,-3,-8,-6,-5,]),'FLOAT_LITERAL':([3,8,10,11,13,14,],[7,7,7,7,7,7,]),'SUB':([4,5,6,7,9,12,15,16,17,18,19,],[-7,-10,11,-9,-4,11,-2,-3,-8,-6,-5,]),}
+_lr_action_items = {'ID':([0,3,5,11,12,13,14,],[1,7,7,7,7,7,7,]),'SUB':([4,6,7,8,9,10,15,16,17,18,19,],[-7,-9,-10,-4,13,13,-8,-6,-5,-3,-2,]),'MULT':([4,6,7,8,15,16,17,18,19,],[-7,-9,-10,12,-8,-6,-5,12,12,]),'ADD':([4,6,7,8,9,10,15,16,17,18,19,],[-7,-9,-10,-4,14,14,-8,-6,-5,-3,-2,]),'OBRACKET':([3,5,11,12,13,14,],[5,5,5,5,5,5,]),'FLOAT_LITERAL':([3,5,11,12,13,14,],[6,6,6,6,6,6,]),'DIV':([4,6,7,8,15,16,17,18,19,],[-7,-9,-10,11,-8,-6,-5,11,11,]),'$end':([2,4,6,7,8,9,15,16,17,18,19,],[0,-7,-9,-10,-4,-1,-8,-6,-5,-3,-2,]),'CBRACKET':([4,6,7,8,10,15,16,17,18,19,],[-7,-9,-10,-4,15,-8,-6,-5,-3,-2,]),'EQUAL':([1,],[3,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -16,7 +16,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'expression':([3,8,],[6,12,]),'factor':([3,8,10,11,13,14,],[4,4,4,4,18,19,]),'statement':([0,],[2,]),'term':([3,8,10,11,],[9,9,15,16,]),}
+_lr_goto_items = {'expression':([3,5,],[9,10,]),'term':([3,5,13,14,],[8,8,18,19,]),'factor':([3,5,11,12,13,14,],[4,4,16,17,4,4,]),'statement':([0,],[2,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,14 +26,14 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> statement","S'",1,None,None,None),
-  ('statement -> ID EQUAL expression','statement',3,'p_statement_expression','parse_ula.py',36),
-  ('expression -> expression ADD term','expression',3,'p_expression_add','parse_ula.py',42),
-  ('expression -> expression SUB term','expression',3,'p_expression_sub','parse_ula.py',48),
-  ('expression -> term','expression',1,'p_expression_term','parse_ula.py',54),
-  ('term -> term MULT factor','term',3,'p_term_mult','parse_ula.py',60),
-  ('term -> term DIV factor','term',3,'p_term_div','parse_ula.py',68),
-  ('term -> factor','term',1,'p_term_factor','parse_ula.py',74),
-  ('factor -> OBRACKET expression CBRACKET','factor',3,'p_factor_expression','parse_ula.py',81),
-  ('factor -> FLOAT_LITERAL','factor',1,'p_factor_float_literal','parse_ula.py',90),
-  ('factor -> ID','factor',1,'p_factor_id','parse_ula.py',98),
+  ('statement -> ID EQUAL expression','statement',3,'p_statement_expression','parse_ula.py',33),
+  ('expression -> expression ADD term','expression',3,'p_expression_add','parse_ula.py',39),
+  ('expression -> expression SUB term','expression',3,'p_expression_sub','parse_ula.py',45),
+  ('expression -> term','expression',1,'p_expression_term','parse_ula.py',51),
+  ('term -> term MULT factor','term',3,'p_term_mult','parse_ula.py',57),
+  ('term -> term DIV factor','term',3,'p_term_div','parse_ula.py',63),
+  ('term -> factor','term',1,'p_term_factor','parse_ula.py',68),
+  ('factor -> OBRACKET expression CBRACKET','factor',3,'p_factor_expression','parse_ula.py',74),
+  ('factor -> FLOAT_LITERAL','factor',1,'p_factor_float_literal','parse_ula.py',80),
+  ('factor -> ID','factor',1,'p_factor_id','parse_ula.py',86),
 ]
